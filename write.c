@@ -71,10 +71,12 @@ do_write() {
   int fu;
   int CDBdata;
   int CDBtag;
-
-  fu=-1;
+    
+   
   // Find a FU  with ready result. If none found return.
-    for (int i=0; i<NUM_FU * NUM_COPIES; i++) {
+    int i;
+    fu=-1;
+    for (i=0; i<NUM_FU * NUM_COPIES; i++) {
         if (resultReady[i]==TRUE) {
             fu=i;
             CDBdata=resultData[i].result;
