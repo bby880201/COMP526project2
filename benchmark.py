@@ -20,9 +20,11 @@ while a<=128:
 
     subprocess.call('mv tmp global.h', shell=True)
 
-    output = subprocess.Popen(shlex.split('gcc *.c ./yacsim.o -lm -o runme'),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    output = subprocess.Popen('gcc *.c ./yacsim.o -lm -o runme',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     output.wait()
-    output = subprocess.Popen(shlex.split('./runme'),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    for i in output.stderr:
+        print i
+    output = subprocess.Popen('./runme',shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     output.wait()
     
     NIR = 0
