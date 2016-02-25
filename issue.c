@@ -113,6 +113,7 @@ do_issue() {
             
             branchFlag=TRUE;
             numInstrComplete++;  // Branch Instruction completes in the ISSUE stage
+            numBranchStallCycles++;
             if (DEBUG)
                 printf("\tCompleted Instruction: %s. Number Instructions Completed: %d Time: %5.2f\n", "BRANCH", numInstrComplete, GetSimTime());
      
@@ -132,6 +133,7 @@ do_issue() {
             numInstrComplete++;   // Taken BNEZ completes in the ISSUE stage
             if (REG_FILE[srcReg1]!=0) {
                 branchFlag=TRUE;
+                numBranchStallCycles++;
             }
        // if Branch is NOT TAKEN continue execution with next fetched instruction
             if (DEBUG)
