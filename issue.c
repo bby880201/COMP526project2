@@ -95,13 +95,13 @@ do_issue() {
   // Handle NOP, HALT, BRANCH and BNEZ
     switch (opCode) {
    /********************  Handle NOP  ********************/
-        case NOP:
+        case 0:
             if (DEBUG)
                 printf("\tInstruction is NOP. Will not issue into RS. Time: %5.2f\n", GetSimTime());
             return;
 
   /********************  Handle HALT  ********************/
-        case HALT:
+        case 10:
             stallIF=TRUE;
             isHALT=TRUE;
             numHaltStallCycles++;
@@ -109,8 +109,8 @@ do_issue() {
                 printf("\tInstruction is HALT. Will not issue into RS. Will assert stallIF. Time: %5.2f\n", GetSimTime());
             return;
   /********************  Handle BRANCH  ********************/
-        case BRANCH:
-            nextPC=offset;
+        case 8:
+            //nextPC=offset;
             numBranchStallCycles++;
             numInstrComplete++;  // Branch Instruction completes in the ISSUE stage
             if (DEBUG)
@@ -118,7 +118,7 @@ do_issue() {
      
             return;
   /********************  Handle BNEZ  ********************/
-        case BNEZ:
+        case 9:
     // if BNEZ register  value not available stall for a cycle. Set stallIF and return
             if (REG_TAG[srcReg1]!=-1) {
                 stallIF=TRUE;
@@ -129,14 +129,14 @@ do_issue() {
             
     // if Branch is TAKEN
             numInstrComplete++;   // Taken BNEZ completes in the ISSUE stage
-            if (RES_FILE[srcReg1]!=0) {
+            if (REG_FILE[srcReg1]!=0) {
                 branchFlag=TRUE;
-                nextPC=offset;
+                //nextPC=offset;
                 numBranchStallCycles++;
             }
        // if Branch is NOT TAKEN continue execution with next fetched instruction
             else {
-                nextPC=PC4;
+                //nextPC=PC4;
             }
             if (DEBUG)
                 printf("\tCompleted Instruction: %s.  Time: %5.2f Number Instructions Completed: %d\n", "BNEZ", GetSimTime(), numInstrComplete);
@@ -161,7 +161,7 @@ do_issue() {
     printf("\tOPCODE: %s  Adding to RS index %d\n", map(fu),rsindex); 
  
   // Update fields of RS Entry
-            nextPC=PC4;
+            //nextPC=PC4;
 
             RS[rsindex].fu=fu;
             RS[rsindex].busy=FALSE;
