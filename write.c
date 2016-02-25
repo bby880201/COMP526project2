@@ -72,13 +72,24 @@ do_write() {
   int CDBdata;
   int CDBtag;
 
-  
+  fu=-1
   // Find a FU  with ready result. If none found return.
-
+    for (i=0; i<NUM_FU * NUM_COPIES; i++) {
+        if (resultReady[i]==TRUE) {
+            fu=i;
+            CDBdata=resultData[i].result;
+            CDBtag=resultData[i].tag;
+            break;
+        }
+    }
+    if (fu==-1) return;
   // Update isFree and resultReady flags
+    isFree[fu]=TRUE;
+    resultReady[fu]=FALSE;
 
   // Call CDBUpdateRS and CDBUpdateREGFILE to update RS entries and the destination register
-
+    CDBUpdateRS(CDBdata,CDBtag);
+    CDBUpdateREGFILE(CDBdata,CDBtag);
 
 
     numInstrComplete++;

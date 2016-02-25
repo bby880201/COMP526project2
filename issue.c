@@ -131,13 +131,9 @@ do_issue() {
             numInstrComplete++;   // Taken BNEZ completes in the ISSUE stage
             if (REG_FILE[srcReg1]!=0) {
                 branchFlag=TRUE;
-                //nextPC=offset;
                 numBranchStallCycles++;
             }
        // if Branch is NOT TAKEN continue execution with next fetched instruction
-            else {
-                //nextPC=PC4;
-            }
             if (DEBUG)
                 printf("\tCompleted Instruction: %s.  Time: %5.2f Number Instructions Completed: %d\n", "BNEZ", GetSimTime(), numInstrComplete);
             return;
