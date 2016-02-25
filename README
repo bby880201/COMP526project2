@@ -1,0 +1,43 @@
+Source Files
+------------
+sim.c -- main driver of the simulation
+fetch.c -- FETCH stage implementation (no changes needed or allowed)
+issue.c -- ISSUE stage. Template needs to be completed with implementation
+dispatch.c -- DISPATCH stage implementation (no changes needed or allowed)
+exec.c -- ISSUE stage implementation (no changes needed or allowed)
+write.c -- WRITEBACK stage. Template needs to be completed with implementation
+display.c -- An additional stage invoked every cycle to collect statistics and display state information
+utils.c -- Code for initialization and helper functions
+
+Header Files
+------------
+global.h  --- Constants and struct definitions 
+sim.h -- Yacsim-specific header file (do not change)
+
+Simulator Object File
+---------------------
+yacsim.o 
+
+Executable
+----------
+demo -- binary to show sample execution trace
+
+Execute the demo as follows:
+-----------------------------
+./demo > output
+
+This will create a trace of the execution in a text file called "output"
+that you can browse using a normal text editor.
+
+To compile and run your program:
+--------------------------------
+gcc *.c ./yacsim.o -lm -o runme
+
+Execute the program using:
+----------------------------
+./runme
+
+or
+
+./runme > out   if you want the output in a file called "out".
+You can edit "global.h" to change TRACE and DEBUG flags and parameters for the simulation.
