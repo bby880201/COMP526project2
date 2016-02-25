@@ -9,8 +9,8 @@ while a<=128:
             for line in header:
                 if line.startswith('#LOADFP_CYCLES'):
                     words = line.split()
-                        words[2] = str(a)
-                        print>>ot, ' '.join(words)
+                    words[2] = str(a)
+                    print>>ot, ' '.join(words)
                 else: ot.write(line)
 
 subprocess.call('mv tmp global.h', shell=True)
