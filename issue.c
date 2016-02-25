@@ -95,13 +95,13 @@ do_issue() {
   // Handle NOP, HALT, BRANCH and BNEZ
     switch (opCode) {
    /********************  Handle NOP  ********************/
-        case 0:
+        case NOP:
             if (DEBUG)
                 printf("\tInstruction is NOP. Will not issue into RS. Time: %5.2f\n", GetSimTime());
             return;
 
   /********************  Handle HALT  ********************/
-        case 10:
+        case HALT:
             stallIF=TRUE;
             isHALT=TRUE;
             numHaltStallCycles++;
@@ -109,29 +109,29 @@ do_issue() {
                 printf("\tInstruction is HALT. Will not issue into RS. Will assert stallIF. Time: %5.2f\n", GetSimTime());
             return;
   /********************  Handle BRANCH  ********************/
-        case 8:
-            //nextPC=offset;
-            numBranchStallCycles++;
+        case BRANCH:
+            
+            branchFlag=TRUE;
             numInstrComplete++;  // Branch Instruction completes in the ISSUE stage
             if (DEBUG)
                 printf("\tCompleted Instruction: %s. Number Instructions Completed: %d Time: %5.2f\n", "BRANCH", numInstrComplete, GetSimTime());
      
             return;
   /********************  Handle BNEZ  ********************/
-        case 9:
+        case BNEZ:
     // if BNEZ register  value not available stall for a cycle. Set stallIF and return
             if (REG_TAG[srcReg1]!=-1) {
                 stallIF=TRUE;
                 numBranchDataStallCycles++;  // Increment if  BNEZ  register is not available
                 if (DEBUG)
                     printf("\tBNEZ source register %d not READY ! Setting IFstall. Time: %5.2f\n", srcReg1,  bool(stallIF), GetSimTime());
+                return;
             }
             
     // if Branch is TAKEN
             numInstrComplete++;   // Taken BNEZ completes in the ISSUE stage
             if (REG_FILE[srcReg1]!=0) {
                 branchFlag=TRUE;
-                numBranchStallCycles++;
             }
        // if Branch is NOT TAKEN continue execution with next fetched instruction
             if (DEBUG)
@@ -157,7 +157,6 @@ do_issue() {
     printf("\tOPCODE: %s  Adding to RS index %d\n", map(fu),rsindex); 
  
   // Update fields of RS Entry
-            //nextPC=PC4;
 
             RS[rsindex].fu=fu;
             RS[rsindex].busy=FALSE;
@@ -172,13 +171,15 @@ do_issue() {
             RS[rsindex].tag2=REG_TAG[srcReg2];
             
             RS[rsindex].destReg=destReg;
+            
+            if (REG_TAG[srcReg1] != -1) RS[rsindex].op1RDY = FALSE;
+            
             if (opCode==LOADFP){
                 RS[rsindex].tag2=-1;
-    
             }
-            else if (opCode==STOREFP) {
-                RS[rsindex].destReg=-1;
-            }
+            if (REG_TAG[srcReg2] != -1) RS[rsindex].op2RDY = FALSE;
+            
+            
     }
   // Update Register File Tags
     REG_TAG[destReg]=rsindex;
