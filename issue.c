@@ -152,35 +152,50 @@ do_issue() {
                     printf("\tNo free Reservation Stations! Setting IFstall. Time: %5.2f\n", GetSimTime());
                 return;
             }
-            // Get Functional Unit
+             // Get Functional Unit
             fu = getFU(opCode);
             
-            if (TRACE)
-            printf("\tOPCODE: %s  Adding to RS index %d\n", map(fu),rsindex);
+  if (TRACE)
+    printf("\tOPCODE: %s  Adding to RS index %d\n", map(fu),rsindex); 
+ 
+  // Update fields of RS Entry
+
+            RS[rsindex].fu=fu;
+            RS[rsindex].busy=FALSE;
+            RS[rsindex].free=FALSE;
             
-            // Update fields of RS Entry
-            RS[rsindex].fu = fu;
-            RS[rsindex].operand1 = REG_FILE[srcReg1];
-            RS[rsindex].tag1 = REG_TAG[srcReg1];
-            RS[rsindex].free = FALSE;
-            RS[rsindex].busy = FALSE;
-            RS[rsindex].destReg = destReg;
-            if (RS[rsindex].tag1 == -1) RS[rsindex].op1RDY = TRUE;
-            else RS[rsindex].op1RDY = FALSE;
-            if (opCode != LOADFP) {
-                RS[rsindex].operand2 = REG_FILE[srcReg2];
-                RS[rsindex].tag2 = REG_TAG[srcReg2];
-                if (RS[rsindex].tag2 == -1) RS[rsindex].op2RDY = TRUE;
-                else RS[rsindex].op2RDY = FALSE;
+            //validate op1
+            if (REG_TAG[srcReg1]!=-1) {
+                RS[rsindex].op1RDY = FALSE;
+            } else {
+                RS[rsindex].op1RDY=TRUE;
             }
-            else {
-                RS[rsindex].operand2 = 1;
-                RS[rsindex].tag2 = -1;
-                RS[rsindex].op2RDY = TRUE;
+            RS[rsindex].operand1=REG_FILE[srcReg1];
+            RS[rsindex].tag1=REG_TAG[srcReg1];
+            
+            //validate op2
+            if (REG_TAG[srcReg2]==-1) {
+                RS[rsindex].op2RDY = FALSE;
+            } else {
+                RS[rsindex].op2RDY=TRUE;
+            }
+            RS[rsindex].operand2=REG_FILE[srcReg2];
+            RS[rsindex].tag2=REG_TAG[srcReg2];
+
+            if (opCode==LOADFP) {
+                RS[rsindex].operand2=1;
+                RS[rsindex].tag2=-1;
             }
             
-            // Update Register File Tags
-            if (opCode != STOREFP) REG_TAG[destReg] = rsindex;
+            //update destiny register
+            if (opCode!=STOREFP) {
+                RS[rsindex].destReg=destReg;
+            } else {
+                RS[rsindex].destReg=0;
+            }
             
+  // Update Register File Tags
+            if (opCode!=STOREFP) REG_TAG[destReg]=rsindex;
+            return;
     }
  }
