@@ -164,26 +164,35 @@ do_issue() {
             RS[rsindex].busy=FALSE;
             RS[rsindex].free=FALSE;
             
-            RS[rsindex].op1RDY=TRUE;
+            if (REG_TAG[srcReg1] != -1) {
+                RS[rsindex].op1RDY = FALSE;
+            } else {
+                RS[rsindex].op1RDY=TRUE;
+            }
             RS[rsindex].operand1=REG_FILE[srcReg1];
             RS[rsindex].tag1=REG_TAG[srcReg1];
-            
-            RS[rsindex].op2RDY=TRUE;
-            RS[rsindex].operand2=REG_FILE[srcReg2];
-            RS[rsindex].tag2=REG_TAG[srcReg2];
-            
-            RS[rsindex].destReg=destReg;
-            
-            if (REG_TAG[srcReg1] != -1) RS[rsindex].op1RDY = FALSE;
-            
-            if (opCode==LOADFP){
-                RS[rsindex].tag2=-1;
+
+            if (REG_TAG[srcReg2] != -1) {
+                RS[rsindex].op2RDY = FALSE;
+            } else {
+                RS[rsindex].op2RDY=TRUE;
             }
-            if (REG_TAG[srcReg2] != -1) RS[rsindex].op2RDY = FALSE;
+            RS[rsindex].operand2=REG_FILE[srcReg2];
             
+            if (opCode==LOADFP) {
+                RS[rsindex].tag2=-1;
+            } else {
+                RS[rsindex].tag2=REG_TAG[srcReg2];
+            }
             
-    }
+            if (opCode!=STOREFP) {
+                RS[rsindex].destReg=destReg;
+            } else {
+                RS[rsindex].destReg=0;
+            }
+            
   // Update Register File Tags
-    REG_TAG[destReg]=rsindex;
-    return;
+            if (opCode!=STOREFP) REG_TAG[destReg]=rsindex;
+            return;
+    }
  }
