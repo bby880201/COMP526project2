@@ -166,7 +166,7 @@ do_issue() {
             
             //validate op1
             if (REG_TAG[srcReg1]!=-1) {
-                RS[rsindex].op1RDY = FALSE;
+                RS[rsindex].op1RDY=FALSE;
             } else {
                 RS[rsindex].op1RDY=TRUE;
             }
@@ -174,17 +174,18 @@ do_issue() {
             RS[rsindex].tag1=REG_TAG[srcReg1];
             
             //validate op2
-            if (REG_TAG[srcReg2]==-1) {
-                RS[rsindex].op2RDY = FALSE;
-            } else {
-                RS[rsindex].op2RDY=TRUE;
-            }
-            RS[rsindex].operand2=REG_FILE[srcReg2];
-            RS[rsindex].tag2=REG_TAG[srcReg2];
-
             if (opCode==LOADFP) {
-                RS[rsindex].operand2=1;
+                RS[rsindex].op2RDY=TRUE;
+                RS[rsindex].operand2=-1;
                 RS[rsindex].tag2=-1;
+            } else {
+                if (REG_TAG[srcReg2]!=-1) {
+                    RS[rsindex].op2RDY=FALSE;
+                } else {
+                    RS[rsindex].op2RDY=TRUE;
+                }
+                RS[rsindex].operand2=REG_FILE[srcReg2];
+                RS[rsindex].tag2=REG_TAG[srcReg2];
             }
             
             //update destiny register
