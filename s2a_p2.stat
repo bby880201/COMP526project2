@@ -1,0 +1,11 @@
+NUM_RESERVATION_STATIONS	NUM_COPIES	instructions retired	Execution completed time	Retirement completed  at time	the number of RFFull stall cycles
+4	1	540	1054	1072	454
+4	2	540	898	911	298
+4	3	540	897	910	297
+4	4	540	898	911	298
+4	5	540	897	910	297
+64	1	540	666	1044	0
+64	2	540	600	617	0
+64	3	540	600	617	0
+64	4	540	600	617	0
+64	5	540	600	618	0

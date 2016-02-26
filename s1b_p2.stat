@@ -1,0 +1,9 @@
+NUM_RESERVATION_STATIONS	instructions retired	Execution completed time	Retirement completed  at time	the number of RFFull stall cycles
+1	540	4200	4201	3600
+2	540	3360	3362	2760
+4	540	2091	2121	1491
+8	540	2030	2078	1430
+16	540	1975	2081	1375
+32	540	1851	2070	1251
+64	540	1629	2079	1029
+128	540	1153	2073	553
