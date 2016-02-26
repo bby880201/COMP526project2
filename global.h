@@ -26,7 +26,7 @@
 #define ADDFP_CYCLES  16
 #define SUBFP_CYCLES  4
 #define MULFP_CYCLES  8
-#define LOADFP_CYCLES 16
+#define LOADFP_CYCLES 2
 #define INTADD_CYCLES 1
 #define STOREFP_CYCLES  2
 #define COPYFP_CYCLES 1

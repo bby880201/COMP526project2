@@ -28,14 +28,14 @@ loadProgram() {
   // Accumulates the sum of an array of n consecutive memory words into Register R2
   // The base address of the array is in Register R1
   // Initialize R8 with the number of iterations n : Default is set at 20
-  
+  /*
   insMEM[0] = 0x10200000;       // LOADFP R0, (R1)              top: R0 = MEM[R1];
   insMEM[1] = 0x15094000;       // INTADD  R8, R8, R9                n = n - 1;
   insMEM[2] = 0x04401000;       // ADDFP R2, R2, R0                  sum = sum + R0;
   insMEM[3] = 0x14230800;       // INTADD  R1, R1, R3                R1 = R1 + 1;
   insMEM[4] = 0x2500FFEC;       // BNEZ R8  -20                      if (n != 0) goto top 
   insMEM[5] = 0x28000000;       //HALT 
-  
+  */
     
   // PROGRAM  2
   // Adds two arrays elemen-by-element and stores the result in a third array
@@ -43,7 +43,7 @@ loadProgram() {
   // The base address  of the destination array is R6
   // Initialize R8 with the number of iterations: Default is set at 20
   
-  /* 
+   
   insMEM[0] = 0x15094000;       // INTADD  R8, R8, R9            top: n = n-1;
   insMEM[1] = 0x10800800;       // LOADFP R1, (R4)                    R1 = MEM[R4]
   insMEM[2] = 0x10400000;       // LOADFP R0, (R2)                    R0 = MEM[R2]
@@ -54,7 +54,7 @@ loadProgram() {
   insMEM[7] = 0x14C33000;       // INTADD  R6, R6, R3                 R6 = R6 + 1
   insMEM[8] = 0x2500FFDC;       // BNEZ R8  -36                       if (n != 0) goto top
   insMEM[9] = 0x28000000;       //HALT 
-  */
+  
   
 }
 
