@@ -48,4 +48,5 @@ for b in NUM_COPIES:
                     RSFull = col[8]
         print >>stats, '\t'.join([str(b),str(a),NIR,ECT,RCT,RSFull])
         a+=1
+    a=1
 stats.close()
