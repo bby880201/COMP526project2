@@ -1,19 +1,19 @@
 import os,sys
 import subprocess, shlex
-stats = open('pro2.stat','w')
-print >> stats,'LOADFP_CYCLES\tinstructions retired\tExecution completed time\tRetirement completed  at time\tthe number of RFFull stall cycles'
+stats = open(sys.argv[1],'w')
+print >> stats,'NUM_RESERVATION_STATIONS\tinstructions retired\tExecution completed time\tRetirement completed  at time\tthe number of RFFull stall cycles'
 a=1
 while a<=128:
     with open('./global.h') as header:
         with open('tmp','w') as ot:
             for line in header:
-                if line.startswith('#LOADFP_CYCLES'):
+                if line.startswith('#define NUM_RESERVATION_STATIONS'):
                     words = line.split()
                     words[2] = str(a)
                     print>>ot, ' '.join(words)
                 else: ot.write(line)
 
-subprocess.call('mv tmp global.h', shell=True)
+    subprocess.call('mv tmp global.h', shell=True)
     subprocess.call('gcc *.c ./yacsim.o -lm -o runme', shell=True)
     subprocess.call('./runme > tempOut', shell=True)
     
@@ -30,7 +30,7 @@ subprocess.call('mv tmp global.h', shell=True)
     RSFull = 0
     
     with open('tempOut') as output:
-        for line in output.stdout:
+        for line in output:
             if line.startswith('Number Instructions Retired:'):
                 NIR = line.split()[-1]
             elif line.startswith('Retirement completed  at time'):
